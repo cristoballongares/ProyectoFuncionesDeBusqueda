@@ -23,6 +23,7 @@ public class objeto { // Cambiar nombre de la clase en cuanto lo tengamos decidi
     // Bri tiene un arreglo de figuras geometricas (como triangulos, cuadrados, poligono, etc), cada figura
     // cuenta con 3 caracteristicas: nombre, perimetro y area. A Bri y a sus amigos les gustan mucho los retos que involucran
     // un orden estricto y figuras geometricas, es por eso, que proponen una serie de desafios a sus compañeros de clase.
+    
     // David propone lo siguiente: Si el arreglo esta ordenado a partir del nombre de las figuras geometricas (orden lexicografico)
     // cual y como seria la forma mas eficiente de encontrar la cantidad de apariciones de la figura con nombre "Triangulo" usando busqueda binaria?
     
@@ -30,8 +31,11 @@ public class objeto { // Cambiar nombre de la clase en cuanto lo tengamos decidi
     // Cuadrado, Cuadrado, Cuadrado, Triangulo, Triangulo, Rombo, Rombo, Hexagono
     
     // Solucion
-    // Primero: Encontrar la ultima aparicion de Triangulo usando busqueda binaria
-    // Segundo: Encontrar la primera aparicion de Triangulo usando busqueda binaria
+    // Primero: Encontrar la ultima aparicion de Triangulo usando busqueda binaria y guardar indice
+    // Segundo: Encontrar la primera aparicion de Triangulo usando busqueda binaria y guardar indice
+    // Tercero: Resta de indices, ultimaAparicion-primeraAparicion
+    
+    // Salva propone el siguiente reto: 
     
     
 }
