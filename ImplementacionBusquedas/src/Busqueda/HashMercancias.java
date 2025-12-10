@@ -6,6 +6,7 @@ package Busqueda;
 
 import Objetos.Mercancia;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -45,11 +46,15 @@ public class HashMercancias {
         Mercancia[] tabla = (Mercancia[])mercancias[idx];
         int hashValue = hash(obj.getArrivalD(), idx); // posicion inicial
         int i = hashValue;
+        int M = m[idx];
         
-        while(tabla[i]!=null){ // Por si agregamos otro objeto con la misma fecha de llegadaa
-            if(tabla[i].getArrivalD().equals(obj.getArrivalD())){ // FUNCIONNN TEMPORAL!
-                return; 
+        while(tabla[i]!=null){ // Colision!
+            if(tabla[i].getArrivalD().equals(obj.getArrivalD())){ // Fecha y tipo se repite!, eso no es posible
+                throw new IllegalArgumentException("La mercancía con fecha " + obj.getArrivalD() + " ya existe en: "+obj.getType());
             }
+            // La colision la manejamos con exploracion lineal
+            // simplemente, avanzamos a la siguiente posicion hasta que encontremos un lugar vacio!
+            i = (i+1)%M;
         }
         
         tabla[i] = obj;
@@ -62,15 +67,50 @@ public class HashMercancias {
     }
     
     public Mercancia get(String fecha, String tipo){ // alguna en especifico
-        Mercancia a = null;
         int idx = getIndexType(tipo);
+        if(idx==-1) return null;
 
-        int indice = hash(fecha, idx);
         Mercancia[] tabla = (Mercancia[])mercancias[idx];
-        a = tabla[indice];
+        int M = m[idx];
+        int hashVal = hash(fecha, idx);
+        int i = hashVal;
+
+        int inicio = i; 
+        // buscaremos siempre y cuando no encontremos algo vacio
+        while(tabla[i]!=null) {
+            // Este es?
+            if(tabla[i].getArrivalD().equals(fecha)){
+                return tabla[i]; // encontradooo
+            }
+            i=(i+1)%M; // buscamos en la sig posicion
+            // si hemos dado toooda la vuelta, salimos
+            if(i == inicio) break;
+        }
+
+        return null; 
+        }
+    
+    public void erase(String fecha, String tipo){
+        int idx = getIndexType(tipo);
+        if(idx==-1) throw new IllegalArgumentException("Tipo de mercancia no valida: " + tipo);
         
-        if(a!=null && a.getArrivalD().equals(fecha)) return a;
-        else return null; // Si no existeee...
+        int i = hash(fecha, idx);
+        int inicio = i;
+        int M = m[idx];
+        Mercancia[] tabla = (Mercancia[])mercancias[idx];
+
+        while (tabla[i] != null) {
+            // es??
+            if (tabla[i].getArrivalD().equals(fecha)) {
+            tabla[i] = null;
+            n[idx]--;
+            return; 
+        }
+        i = (i+1)%M; // avanzamossss
+        if (i==inicio) break;
+        }
+        
+    throw new NoSuchElementException("No se encontro ninguna mercancia con la fecha: " + fecha);
     }
     
     public int getIndexType(String tipo){

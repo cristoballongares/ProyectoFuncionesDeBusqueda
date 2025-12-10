@@ -6,6 +6,8 @@ package Programa;
 
 import Busqueda.HashMercancias;
 import Objetos.Mercancia;
+
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -27,7 +29,7 @@ public class PruebaHash {
     static  Scanner in = new Scanner(System.in);
     public static void main(String[] args) {
         
-        String opciones = "1.- Agregar\n2.- Ver mercancias de algun tipo\n3.-Ver alguna mercancia en especifico\n4.- Salir";
+        String opciones = "1.- Agregar\n2.- Ver mercancias de algun tipo\n3.-Ver alguna mercancia en especifico\n4.- Eliminar mercanica\n5.- Salir";
         int r = 0;
         do{
             r = Integer.parseInt(JOptionPane.showInputDialog(opciones));
@@ -35,9 +37,10 @@ public class PruebaHash {
                 case 1: agregarMercancia(); break;
                 case 2: verMercanciasTipo(); break;
                 case 3: verMercanciaEspecifica(); break;
+                case 4: eliminar(); break;
                 default: break;
             }
-        }while(r!=4);
+        }while(r!=5);
     }
     
     static String seleccionarTipo() {
@@ -65,8 +68,14 @@ public class PruebaHash {
                 double v = Double.parseDouble(JOptionPane.showInputDialog("Valor total: "));
                 System.out.println("Valor t: "+v);
                 Mercancia a = new Mercancia(f,tip,u,v);
+            
+                try{
                 listaMercancias.put(a);
-        }
+                } catch(IllegalArgumentException e){
+                    JOptionPane.showMessageDialog(null, "Error al guardar: "+e.getMessage());
+                }
+                
+            }
     }
     
     static void verMercanciasTipo(){
@@ -92,6 +101,19 @@ public class PruebaHash {
         String msg = "Mercancia: "+a.datos();
         JOptionPane.showMessageDialog(null, msg);
 
+    }
+    
+    static void eliminar(){   
+        String f = JOptionPane.showInputDialog("Fecha a borrar:");
+        String tip = seleccionarTipo();
+        try {
+            listaMercancias.erase(f, tip);
+            JOptionPane.showMessageDialog(null, "Eliminado correctamente!!");
+        } catch (NoSuchElementException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Error de tipo: " + e.getMessage());
+        }
     }
     
 }
