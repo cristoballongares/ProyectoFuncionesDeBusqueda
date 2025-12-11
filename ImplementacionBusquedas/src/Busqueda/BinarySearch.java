@@ -21,7 +21,7 @@ public class BinarySearch {
         int fin = lista.size() - 1;
 
         while (inicio <= fin) {
-            int medio = inicio + (fin - inicio) / 2;
+            int medio = inicio + (fin - inicio) / 2; //calculamos el indice del punto central
             int comparacion = lista.get(medio).compareTo(fecha);
 
             if (comparacion == 0) {
