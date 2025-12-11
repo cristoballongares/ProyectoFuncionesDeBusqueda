@@ -145,13 +145,25 @@ public class Mercancia {
         this.totalV = totalV;
     }
     
-    @Override
-    public String toString(){
-        return "Mercancia: " + type + ". Fecha de llegada: " + arrivalD;
-    }
+    //@Override
+    //public String toString(){
+       // return "Mercancia: " + type + ". Fecha de llegada: " + arrivalD;
+    //}
     
     public String datos(){
         return "Fecha de llegada: "+arrivalD+"\nTipo: "+type+"\nUnidades: "+units+"\nValor total: "+totalV;
+    }
+    
+      @Override
+    public String toString() {
+        return "==================\n" +
+             "====Mercancia====\n" +
+             "==================\n" +
+             "Fecha: " + arrivalD + "\n" +
+             "tipo: " + type + "\n" +
+             "Unidades: " + units + "\n" +
+             "Valor: " + totalV + "\n" +
+             "==================";
     }
 
     public int compareTo(String fecha) { //Para comparar mercancias

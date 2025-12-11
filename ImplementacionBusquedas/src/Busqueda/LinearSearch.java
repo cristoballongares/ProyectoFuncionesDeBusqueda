@@ -11,15 +11,15 @@ import java.util.List;
  *
  * @author salva
  */
-public class LinearSearch {
+public class LinearSearch extends Mercancia{
 
     public LinearSearch() {
     }
     
-    public int linearS(List<Mercancia> lista, String fecha){
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).equals(fecha)) { 
-                return i; 
+    public int linearS(Mercancia[] mercancia, String arrivalD) {
+        for (int i = 0; i < mercancia.length; i++) {
+            if (mercancia[i].getArrivalD().equals(arrivalD)) {  // Usa getArrivalD() para acceder al atributo
+                return i;
             }
         }
         return -1; 
