@@ -5,7 +5,6 @@
 package Busqueda;
 
 import Objetos.Mercancia;
-import java.util.List;
 
 /**
  *
@@ -24,6 +23,4 @@ public class LinearSearch extends Mercancia{
         }
         return -1; 
     }
-
-
 }

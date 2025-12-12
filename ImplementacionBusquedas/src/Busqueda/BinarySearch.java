@@ -7,7 +7,7 @@ package Busqueda;
 import Objetos.Mercancia;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+
 
 /**
  *
@@ -40,5 +40,4 @@ public class BinarySearch extends Mercancia{
         }
         return -1; 
     }
-
 }

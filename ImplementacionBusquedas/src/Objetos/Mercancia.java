@@ -145,13 +145,9 @@ public class Mercancia {
         this.totalV = totalV;
     }
     
-    //@Override
-    //public String toString(){
-       // return "Mercancia: " + type + ". Fecha de llegada: " + arrivalD;
-    //}
-    
     public String datos(){
-        return "Fecha de llegada: "+arrivalD+"\nTipo: "+type+"\nUnidades: "+units+"\nValor total: "+totalV;
+        return "Fecha de llegada: "+arrivalD+"\nTipo: "+type+
+                "\nUnidades: "+units+"\nValor total: "+totalV;
     }
     
       @Override
