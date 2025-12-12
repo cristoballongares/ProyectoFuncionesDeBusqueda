@@ -4,11 +4,16 @@
  */
 package Programa;
 
+import Busqueda.BinarySearch;
+import Busqueda.HashMercancias;
+import Busqueda.LinearSearch;
 import Objetos.Mercancia;
+import static Programa.PruebaHash.listaMercancias;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Briana Brito Mtz
+ * @author 
  */
 public class Mercancias extends javax.swing.JFrame {
 
@@ -17,11 +22,61 @@ public class Mercancias extends javax.swing.JFrame {
      */
     Mercancia m;
     Mercancia[] mercancias;
+    LinearSearch ls;
+    BinarySearch bs;
+    StringBuilder sb = new StringBuilder();
+    long t1, t2, ts, tb, th, tm;
+    static HashMercancias listaMercancias;
+    String caso = "";
     
     public Mercancias() {
         initComponents();
         m = new Mercancia();
         mercancias = m.rellenarMercancias(1000);
+        ls = new LinearSearch();
+        bs = new BinarySearch();
+        bs.ordenarPorFecha(mercancias);
+        listaMercancias  = new HashMercancias();
+        inicializarHash();
+        
+        
+    }
+    //El metodo generado con hash no permite mercancias duplicadas, sin embargo al generar aleatoreamente estas
+    //hay veces que se generan duplicadas, para capturarlas y nos deje trabajar con hash:
+    public void inicializarHash() {
+        listaMercancias = new HashMercancias();
+        int insertadas = 0;
+        int duplicadas = 0;
+        for (Mercancia merc : mercancias) {
+            try {
+                listaMercancias.putF(merc);
+                insertadas++;
+            }catch (IllegalArgumentException e) {
+                System.out.println("Duplicada omitida: " + e.getMessage());
+                duplicadas++;
+            }
+        }
+        System.out.println("Insertadas: " + insertadas + ", Duplicadas: " + duplicadas);
+    }
+    
+    public void tipoMercancia(){
+        switch(jComboBox1.getSelectedIndex()){
+            case 0:
+                caso = "Electrónica";
+            break;
+            
+            case 1:
+                caso = "Textiles";
+            break;
+            
+            case 2:
+                caso = "Perecederos";
+            break;
+            
+            case 3:
+                caso = "Químicos";
+            break;    
+        }
     }
 
     /**
@@ -43,6 +98,24 @@ public class Mercancias extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -65,7 +138,7 @@ public class Mercancias extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addContainerGap(720, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,10 +158,30 @@ public class Mercancias extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Generar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setForeground(new java.awt.Color(0, 0, 0));
+        jButton5.setText("Limpiar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setForeground(new java.awt.Color(0, 0, 0));
+        jButton7.setText("Salir");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -98,9 +191,14 @@ public class Mercancias extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(28, 28, 28)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7)))
                 .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -115,26 +213,201 @@ public class Mercancias extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton5)
+                    .addComponent(jButton7))
+                .addContainerGap(9, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(17, 18, 13));
+
+        jLabel3.setFont(new java.awt.Font("Bahnschrift", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("BÚSCAR MERCANCÍA CON:");
+
+        jPanel5.setBackground(new java.awt.Color(86, 84, 73));
+
+        jLabel4.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("INGRESE FECHA DE LLEGADA:");
+
+        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel5.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("INGRESE TIPO DE MERCANCÍA:");
+
+        jLabel6.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("BÚSQUEDA SECUENCIAL:");
+
+        jLabel7.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("BÚSQUEDA BINARIA:");
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setText("BUSCAR (S)");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
+        jButton3.setText("BUSCAR (B)");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electrónica", "Textiles", "Perecederos", "Químicos" }));
+
+        jLabel8.setFont(new java.awt.Font("Bahnschrift", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("BÚSQUEDA HASH");
+
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
+        jButton4.setText("BUSCAR (H)");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setBackground(new java.awt.Color(255, 255, 255));
+        jButton6.setForeground(new java.awt.Color(0, 0, 0));
+        jButton6.setText("MOSTRAR SEGÚN EL TIPO (H)");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(197, 197, 197)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton6)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(32, Short.MAX_VALUE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(134, 134, 134))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(131, 131, 131))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(jLabel7))
+                        .addContainerGap())))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4)
+                    .addComponent(jButton2))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane3.setViewportView(jTextArea3);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(240, 240, 240)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 21, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3))
+                .addGap(19, 19, 19))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(17, 17, 17)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
         );
 
@@ -154,13 +427,139 @@ public class Mercancias extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
         for (Mercancia mercancia : mercancias) {
             jTextArea2.append(mercancia.toString() + "\n\n");
         }
         jTextArea2.setLineWrap(true); // Habilita el ajuste automático de línea
         jTextArea2.setWrapStyleWord(true); // Asegura que las líneas se corten en palabras completas
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String datoBus = jTextField1.getText();
+        if (!jTextField1.getText().trim().isEmpty()){
+            sb.append("====== Búsqueda Secuencial ======\n");
+            t1 = System.nanoTime();   // start
+            int resultado = ls.linearS(mercancias, datoBus);
+            t2 = System.nanoTime();   // stop
+            ts= t2 - t1; // Tiempo promedio       
+        
+            if(resultado == -1){
+                sb.append("\nLa mercancía con fecha ").append(datoBus).append(" no se encuentra en el sistema.\n\n");
+                jTextField1.setText("");
+            }else{
+                sb.append("\n¡Operación exitosa! La mercancía:\n");
+                sb.append("\n").append(mercancias[resultado].toString());
+                sb.append("\nSe encuentra en el sistema.\n");
+                sb.append("Tiempo: ").append(ts).append("ns\n\n");
+                jTextField1.setText("");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Error: Ingresa un valor correcto");
+        }
+        
+        jTextArea3.setText(sb.toString());
+        jTextArea3.setLineWrap(true); // Habilita el ajuste automático de línea
+        jTextArea3.setWrapStyleWord(true); // Asegura que las líneas se corten en palabras completas
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String datoBus = jTextField1.getText();
+        if (!jTextField1.getText().trim().isEmpty()){
+            sb.append("====== Búsqueda Binaria ======\n");
+            t1 = System.nanoTime();   // start
+            int resultado = bs.binaryS(mercancias, datoBus);
+            t2 = System.nanoTime();   // stop
+            tb= t2 - t1; // Tiempo promedio       
+        
+            if(resultado == -1){
+                sb.append("\n\nLa mercancía con fecha ").append(datoBus).append(" no se encuentra en el sistema.\n\n");
+                jTextField1.setText("");
+            }else{
+                sb.append("\n¡Operación exitosa! La mercancía:\n");
+                sb.append("\n").append(mercancias[resultado].toString());
+                sb.append("\nSe encuentra en el sistema.\n");
+                sb.append("Tiempo: ").append(tb).append("ns\n\n");
+                jTextField1.setText("");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Error: Ingresa un valor correcto");
+        }
+        
+        jTextArea3.setText(sb.toString());
+        jTextArea3.setLineWrap(true); // Habilita el ajuste automático de línea
+        jTextArea3.setWrapStyleWord(true); // Asegura que las líneas se corten en palabras completas
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        tipoMercancia();
+        String datoBus = jTextField1.getText();
+        if (!jTextField1.getText().trim().isEmpty()){
+            sb.append("====== Búsqueda por funciones Hash ======\n");
+            t1 = System.nanoTime();   // start
+            m = listaMercancias.get(datoBus, caso);
+            t2 = System.nanoTime();   // stop
+            th= t2 - t1; // Tiempo promedio       
+        
+            if(m == null){
+                sb.append("\n\nLa mercancía con fecha ").append(datoBus).append(" y de tipo ").append(caso).
+                        append(" no se encuentra en el sistema.\n\n");
+                jTextField1.setText("");
+            }else{
+                sb.append("\n¡Operación exitosa! La mercancía:\n");
+                sb.append("\n").append(m.toString());
+                sb.append("\nSe encuentra en el sistema.\n");
+                sb.append("Tiempo: ").append(th).append("ns\n\n");
+                jTextField1.setText("");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Error: Ingresa un valor correcto");
+        }
+        
+        jTextArea3.setText(sb.toString());
+        jTextArea3.setLineWrap(true); // Habilita el ajuste automático de línea
+        jTextArea3.setWrapStyleWord(true); // Asegura que las líneas se corten en palabras completas
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        tipoMercancia();
+        sb.append("====== Mostrar Mercancías por Tipo ======\n");
+        t1 = System.nanoTime();   // start
+        Mercancia[] merc = listaMercancias.get(caso);
+        t2 = System.nanoTime();   // stop
+        tm = t2 - t1; 
+    
+        if (merc == null || merc.length == 0){
+            sb.append("\n\nAún no hay mercancías de este tipo o tipo inválido.\n\n");
+        } else {
+            sb.append("\n¡Operación exitosa! Mercancías de tipo ").append(caso).append(":\n");
+            for (Mercancia m : merc) {
+                if (m != null) {
+                sb.append(m.toString()).append("\n===========\n");
+                }
+            }
+            sb.append("Tiempo: ").append(tm).append(" ns\n\n");
+        }
+    
+        jTextArea3.setText(sb.toString());
+        jTextArea3.setLineWrap(true);
+        jTextArea3.setWrapStyleWord(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        jTextArea3.setText("");
+        jTextArea2.setText("");
+        jTextField1.setText("");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,6 +591,7 @@ public class Mercancias extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
                 new Mercancias().setVisible(true);
             }
         });
@@ -199,14 +599,32 @@ public class Mercancias extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

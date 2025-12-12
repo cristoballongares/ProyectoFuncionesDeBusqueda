@@ -50,10 +50,10 @@ public class Mercancia {
         //Para generar el mes aleatorio
         int mes = random.nextInt(12) + 1;
         
-        // Obtener el número máximo de días para ese mes y año
+        // Obtener el numero maximo de dias para ese mes y año
         int diasEnMes = LocalDate.of(año, mes, 1).lengthOfMonth();
         
-        // Generar día aleatorio
+        // Generar dia aleatorio
         int dia = random.nextInt(diasEnMes) + 1;
         
         // Crear la fecha y ponerlo como DDMMAAAA
@@ -99,7 +99,7 @@ public class Mercancia {
         return new Mercancia(arrivalD, type, units, totalV);
     }
     
-    // Método para rellenar un arreglo de x productos
+    // Metodo para rellenar un arreglo de x productos
     public Mercancia[] rellenarMercancias(int x) {
         mercancias = new Mercancia[x];
         for (int i = 0; i < x; i++) {
@@ -157,10 +157,10 @@ public class Mercancia {
       @Override
     public String toString() {
         return "==================\n" +
-             "====Mercancia====\n" +
+             "=====Mercancia=====\n" +
              "==================\n" +
              "Fecha: " + arrivalD + "\n" +
-             "tipo: " + type + "\n" +
+             "Tipo: " + type + "\n" +
              "Unidades: " + units + "\n" +
              "Valor: " + totalV + "\n" +
              "==================";

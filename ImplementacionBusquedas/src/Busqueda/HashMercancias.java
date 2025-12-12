@@ -61,9 +61,40 @@ public class HashMercancias {
         n[idx]++;
         
     }
+    
+    public void putF(Mercancia obj) {
+        if (obj == null) return;
+    
+        int idx = getIndexType(obj.getType());
+        if (idx == -1) return;
+    
+        verificarFactorCarga(idx);
+    
+        Mercancia[] tabla = (Mercancia[]) mercancias[idx];
+        int hashValue = hash(obj.getArrivalD(), idx);
+        int i = hashValue;
+        int M = m[idx];
+    
+        while (tabla[i] != null) {
+            if (tabla[i].getArrivalD().equals(obj.getArrivalD())) {
+                // SOLUCIÓN: Sobrescribe la mercancía existente en lugar de lanzar error
+                tabla[i] = obj;  // Reemplaza con la nueva
+                // No incrementes n[idx] si no quieres contar duplicados como nuevos
+                return;  // Termina aquí
+            }
+            i = (i + 1) % M;  // Exploración lineal
+        }
+    
+        // Si no hay duplicado, inserta normalmente
+        tabla[i] = obj;
+        n[idx]++;
+    }
 
     public Mercancia[] get(String tipo){
-        return (Mercancia[])mercancias[getIndexType(tipo)]; // O(1):)
+        //return (Mercancia[])mercancias[getIndexType(tipo)]; // O(1):)
+        int idx = getIndexType(tipo);
+        if (idx == -1) return null;  // Devuelve null si tipo inválido
+        return (Mercancia[]) mercancias[idx];
     }
     
     public Mercancia get(String fecha, String tipo){ // alguna en especifico
@@ -115,10 +146,10 @@ public class HashMercancias {
     
     public int getIndexType(String tipo){
         return switch (tipo) {
-            case "Electronica" -> 0;
+            case "Electrónica" -> 0;
             case "Textiles" -> 1;
             case "Perecederos" -> 2;
-            case "Quimicos" -> 3;    
+            case "Químicos" -> 3;    
             default -> -1;
         };
     }
@@ -138,7 +169,7 @@ public class HashMercancias {
         return Integer.parseInt(fecha)%m[idx];
     }
 
-    public void rehashing(int idx){
+    /*public void rehashing(int idx){
         indiceActualPrimo[idx]++;
         if(indiceActualPrimo[idx]>primos.length){
             // buscar el siguiente primo mayor que primos[primos.length-1]
@@ -166,6 +197,32 @@ public class HashMercancias {
         
     }
     
+    */
     
+    public void rehashing(int idx) {
+        indiceActualPrimo[idx]++;
+        if (indiceActualPrimo[idx] >= primos.length) {
+            System.out.println("No hay más primos disponibles para rehashing en índice " + idx);
+            return;  // Evita error de índice
+        }
+        int nuevoM = primos[indiceActualPrimo[idx]];  // Tamaño nuevo del arreglo
+        Mercancia[] nuevoArreglo = new Mercancia[nuevoM];
+        Mercancia[] anterior = (Mercancia[]) mercancias[idx];
+        // Reinsertar TODOS los elementos del arreglo anterior en el nuevo, manejando colisiones
+        for (Mercancia merc : anterior) {
+            if (merc != null) {
+                int nuevoHash = hash(merc.getArrivalD(), idx);  // Recalcula hash con nuevo m
+                int i = nuevoHash;
+                while (nuevoArreglo[i] != null) {
+                    i = (i + 1) % nuevoM;  // Exploración lineal en el nuevo arreglo
+                }
+                nuevoArreglo[i] = merc;
+            }
+        }
+        // Actualiza el arreglo y el tamaño
+        mercancias[idx] = nuevoArreglo;
+        m[idx] = nuevoM;
+        // n[idx] se mantiene, ya que todos los elementos se reinsertan
+    }
     
 }
