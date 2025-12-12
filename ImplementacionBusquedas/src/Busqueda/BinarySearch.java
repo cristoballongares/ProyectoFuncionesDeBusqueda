@@ -5,6 +5,8 @@
 package Busqueda;
 
 import Objetos.Mercancia;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -14,6 +16,10 @@ import java.util.List;
 public class BinarySearch extends Mercancia{
 
     public BinarySearch() {
+    }
+    
+    public void ordenarPorFecha(Mercancia[] mercancia) {
+        Arrays.sort(mercancia, Comparator.comparing(Mercancia::getArrivalD));
     }
 
     public int binaryS(Mercancia[] mercancia, String arrivalD) {
