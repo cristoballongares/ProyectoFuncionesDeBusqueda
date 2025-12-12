@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author 
+ * @author Briana Brito Mtz
  */
 public class Mercancias extends javax.swing.JFrame {
 

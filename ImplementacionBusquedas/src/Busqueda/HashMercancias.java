@@ -79,7 +79,7 @@ public class HashMercancias {
             if (tabla[i].getArrivalD().equals(obj.getArrivalD())) {
                 // SOLUCIÓN: Sobrescribe la mercancía existente en lugar de lanzar error
                 tabla[i] = obj;  // Reemplaza con la nueva
-                // No incrementes n[idx] si no quieres contar duplicados como nuevos
+                // No increma n[idx] si no se cuentan duplicados como nuevos
                 return;  // Termina aquí
             }
             i = (i + 1) % M;  // Exploración lineal
