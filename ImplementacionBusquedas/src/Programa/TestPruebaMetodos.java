@@ -28,7 +28,7 @@ public class TestPruebaMetodos {
     Random random = new Random(42); 
     
 
-    String[] tipos = {"Electronica", "Textiles", "Perecederos", "Quimicos"};
+    String[] tipos = {"Electrónica", "Textiles", "Perecederos", "Químicos"};
 //para las fechas    
     LocalDate fechaBase = LocalDate.of(2025, 1, 1);
     
