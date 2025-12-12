@@ -122,14 +122,14 @@ private static HashMercancias generarDatosHash(List<Mercancia> listaMercancias) 
 
                             System.out.println("Busqueda Binaria");
                         System.out.println("Resultado:"+(indexBinario !=-1 ?"Encontrado en indice: "+indexBinario:"No se encontro")+"");
-                            System.out.println("Tiempo en busqueda lineal:\t"+btl+"ns");
+                            System.out.println("Tiempo en busqueda Binaria:"+btl+"ns");
                                         System.out.println("\n");
                 System.out.println("--------------------------------------");
 
                                         
                                System.out.println("Busqueda por Hash");
                         System.out.println("Resultado:"+(resultado !=null?"Encontrado en indice: "+resultado:"No se encontro")+"");
-                            System.out.println("Tiempo en busqueda lineal:"+htl+"ns");
+                            System.out.println("Tiempo en busquedapor Hash:"+htl+"ns");
                                         System.out.println("\n");
                             
 
